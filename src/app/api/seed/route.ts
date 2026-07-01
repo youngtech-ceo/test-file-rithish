@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { adminDb } from "@/lib/firebaseAdmin";
 
+export const dynamic = "force-dynamic";
+
 const MOCK_PRODUCTS = [
   {
     name: 'MacBook Pro 16"',
