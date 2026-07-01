@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
@@ -23,7 +23,7 @@ interface Product {
   createdAt: string;
 }
 
-export default function ProductsPage() {
+function ProductsPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { addToCart, toggleWishlist, isInWishlist } = useCart();
@@ -566,5 +566,22 @@ export default function ProductsPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 text-center">
+          <div className="animate-pulse flex flex-col items-center gap-4 py-20">
+            <div className="h-12 w-12 rounded-full bg-zinc-200/20 dark:bg-zinc-800/20" />
+            <div className="h-4 w-48 bg-zinc-200/20 dark:bg-zinc-800/20 rounded" />
+          </div>
+        </div>
+      }
+    >
+      <ProductsPageContent />
+    </Suspense>
   );
 }
